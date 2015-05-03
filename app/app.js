@@ -7,7 +7,9 @@ angular.module('myApp', [
     'myApp.home',
     'myApp.account',
     'myApp.chat',
-    'myApp.login'
+    'myApp.login',
+    'ngMap',
+    'ngGeolocation'
   ])
 
   .run(['$rootScope', 'Auth', function($rootScope, Auth) {
