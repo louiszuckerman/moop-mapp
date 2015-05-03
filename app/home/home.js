@@ -9,13 +9,14 @@
       $scope.user = user;
       $scope.FBURL = FBURL;
       $scope.radius = 0;
-      $geolocation.getCurrentPosition({
+      $geolocation.watchPosition({
         timeout: 60000,
+        maximumAge: 250,
         enableHighAccuracy: true
-      }).then(function(geo) {
-        console.log(geo);
-        $scope.geo = geo;
-        $scope.radius = geo.coords.accuracy;
+      });
+      $scope.$on('$geolocation.position.changed', function(scope, pos) {
+        $scope.geo = pos;
+        $scope.radius = pos.coords.accuracy;
       });
   }]);
 
