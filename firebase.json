@@ -1,5 +1,5 @@
 {
-  "firebase": "INSTANCE",
+  "firebase": "glowing-inferno-8679",
   "public": "app",
   "ignore": [
     "firebase.json",
