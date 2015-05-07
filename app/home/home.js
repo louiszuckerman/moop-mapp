@@ -3,21 +3,25 @@
 
   var app = angular.module('myApp.home', ['firebase.auth', 'firebase', 'firebase.utils', 'ngRoute', 'ngGeolocation']);
 
-  app.controller('HomeCtrl', ['$scope', 'fbutil', 'user', '$firebaseObject', 'FBURL', '$geolocation',
-    function ($scope, fbutil, user, $firebaseObject, FBURL, $geolocation) {
+  app.controller('HomeCtrl', ['$scope', 'fbutil', 'user', '$firebaseObject', 'FBURL', '$geolocation', 'locationList',
+    function ($scope, fbutil, user, $firebaseObject, FBURL, $geolocation, locationList) {
       $scope.syncedValue = $firebaseObject(fbutil.ref('syncedValue'));
       $scope.user = user;
       $scope.FBURL = FBURL;
-      $scope.radius = 0;
+      $scope.locations = locationList;
       $geolocation.watchPosition({
         timeout: 60000,
         maximumAge: 250,
         enableHighAccuracy: true
       });
       $scope.$on('$geolocation.position.changed', function(scope, pos) {
-        $scope.geo = pos;
-        $scope.radius = pos.coords.accuracy;
+        $scope.locations.push({location: pos});
       });
+  }]);
+
+  app.factory('locationList', ['fbutil', '$firebaseArray', function(fbutil, $firebaseArray) {
+    var ref = fbutil.ref('locations');
+    return $firebaseArray(ref);
   }]);
 
   app.config(['$routeProvider', function ($routeProvider) {

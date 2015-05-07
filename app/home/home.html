@@ -5,10 +5,9 @@
 
 <input ng-model="syncedValue.$value" type="text" ng-change="syncedValue.$save()" /> <b>{{syncedValue.$value}}</b>
 
-<map center="{{geo.coords.latitude}}, {{geo.coords.longitude}}">
-    <shape id="circle" name="circle" stroke-color='#FF0000' stroke-opacity="0.8"stroke-weight="2"
-        center="[{{geo.coords.latitude}}, {{geo.coords.longitude}}]" radius="{{radius}}" editable="true" ></shape>
-
+<map center="{{locations[0].location.coords.latitude}}, {{locations[0].location.coords.longitude}}">
+    <shape ng-repeat="geo in locations" id="circle" name="circle" stroke-color='#FF0000' stroke-opacity="0.8"stroke-weight="2"
+        center="[{{geo.location.coords.latitude}}, {{geo.location.coords.longitude}}]" radius="{{geo.location.coords.accuracy}}" editable="true" ></shape>
 </map>
 
 <p>Open <a ng-href="{{FBURL}}/syncedValue" target="_blank">Forge</a> or a <a target="_blank" href="#/">new window</a> to see this input update in real time.</p>
