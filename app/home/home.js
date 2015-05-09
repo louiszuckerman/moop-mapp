@@ -8,15 +8,21 @@
       $scope.syncedValue = $firebaseObject(fbutil.ref('syncedValue'));
       $scope.user = user;
       $scope.FBURL = FBURL;
-      var locations = fbutil.ref('locations');
-      $scope.locations = $firebaseArray(locations);
       $geolocation.watchPosition({
         timeout: 60000,
         maximumAge: 250,
         enableHighAccuracy: true
       });
+      var locations = fbutil.ref('locations');
+      $scope.locations = $firebaseArray(locations);
       $scope.$on('$geolocation.position.changed', function(scope, pos) {
+        $scope.currentLocation = pos;
         locations.push({location: pos});
+        var crumbs = $scope.locations.map(function (i) {
+          return "[" + i.location.coords.latitude + "," + i.location.coords.longitude + "]"
+        }).join(",");
+        console.log(crumbs);
+        $scope.breadcrumbs = "[" + crumbs + "]";
       });
   }]);
 
